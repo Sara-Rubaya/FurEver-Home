@@ -1,50 +1,59 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
- 
+
+const inputClass = "w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary";
+
 export default function ApplyAdoption() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { token } = useAuth();
- 
+
   const [animal, setAnimal] = useState(null);
-  const [housingType, setHousingType] = useState("Apartment");
-  const [hasOtherPets, setHasOtherPets] = useState(false);
-  const [experience, setExperience] = useState("");
-  const [message, setMessage] = useState("");
+  const [form, setForm] = useState({
+    housingType: "Apartment",
+    hasOtherPets: false,
+    experience: "",
+    message: "",
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
- 
+
+  const updateField = (field, value) => setForm((prev) => ({ ...prev, [field]: value }));
+
   useEffect(() => {
-    const fetchAnimal = async () => {
-      const res = await fetch(`/api/animals/${id}`);
-      const data = await res.json();
-      setAnimal(data);
+    const loadAnimal = async () => {
+      try {
+        const res = await fetch(`/api/animals/${id}`);
+        const data = await res.json();
+        if (res.ok) setAnimal(data);
+      } catch {
+        // the heading just falls back to the generic title
+      }
     };
-    fetchAnimal();
+    loadAnimal();
   }, [id]);
- 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
- 
-    if (!experience.trim()) {
+
+    if (!form.experience.trim()) {
       setError("Please share your pet-care experience");
       return;
     }
- 
+
     setLoading(true);
     try {
       const res = await fetch("/api/applications", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ animalId: id, housingType, hasOtherPets, experience, message }),
+        body: JSON.stringify({ animalId: id, ...form }),
       });
       const data = await res.json();
- 
       if (!res.ok) throw new Error(data.message || "Failed to submit application");
- 
+
       setSuccess(true);
       setTimeout(() => navigate("/my-applications"), 1500);
     } catch (err) {
@@ -53,43 +62,69 @@ export default function ApplyAdoption() {
       setLoading(false);
     }
   };
- 
+
   return (
     <section className="mx-auto max-w-xl px-4 py-12">
-      <h1 className="text-2xl font-bold text-dark">Adoption Application{animal ? ` – ${animal.name}` : ""}</h1>
-      <p className="mt-1 text-sm text-gray-600">Shob information shothik vabe dao, eta shelter review korbe.</p>
- 
+      <h1 className="text-2xl font-bold text-dark">
+        Adoption Application{animal ? ` – ${animal.name}` : ""}
+      </h1>
+      <p className="mt-1 text-sm text-gray-600">Please fill in everything accurately. The shelter will review it.</p>
+
       {error && <p className="mt-4 rounded-md bg-red-100 px-4 py-2 text-sm text-red-700">{error}</p>}
-      {success && <p className="mt-4 rounded-md bg-green-100 px-4 py-2 text-sm text-green-700">Application submitted! Redirecting...</p>}
- 
+      {success && (
+        <p className="mt-4 rounded-md bg-green-100 px-4 py-2 text-sm text-green-700">
+          Application submitted! Redirecting...
+        </p>
+      )}
+
       <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">Housing Type</label>
-          <select value={housingType} onChange={(e) => setHousingType(e.target.value)} className="w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+          <select value={form.housingType} onChange={(e) => updateField("housingType", e.target.value)} className={inputClass}>
             <option>Apartment</option>
             <option>House</option>
             <option>Other</option>
           </select>
         </div>
- 
-        <div>
-          <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-            <input type="checkbox" checked={hasOtherPets} onChange={(e) => setHasOtherPets(e.target.checked)} className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
-            I have other pets at home
-          </label>
-        </div>
- 
+
+        <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+          <input
+            type="checkbox"
+            checked={form.hasOtherPets}
+            onChange={(e) => updateField("hasOtherPets", e.target.checked)}
+            className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+          />
+          I have other pets at home
+        </label>
+
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">Pet-care Experience</label>
-          <textarea value={experience} onChange={(e) => setExperience(e.target.value)} required rows={3} placeholder="e.g. Had a dog for 5 years growing up..." className="w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+          <textarea
+            value={form.experience}
+            onChange={(e) => updateField("experience", e.target.value)}
+            required
+            rows={3}
+            placeholder="e.g. Had a dog for 5 years growing up..."
+            className={inputClass}
+          />
         </div>
- 
+
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">Message to Shelter (optional)</label>
-          <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={2} placeholder="Anything else you'd like the shelter to know..." className="w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+          <textarea
+            value={form.message}
+            onChange={(e) => updateField("message", e.target.value)}
+            rows={2}
+            placeholder="Anything else you'd like the shelter to know..."
+            className={inputClass}
+          />
         </div>
- 
-        <button type="submit" disabled={loading} className="mt-2 rounded-md bg-primary py-2 font-semibold text-white hover:bg-orange-600 disabled:opacity-60">
+
+        <button
+          type="submit"
+          disabled={loading || success}
+          className="mt-2 rounded-md bg-primary py-2 font-semibold text-white hover:bg-orange-600 disabled:opacity-60"
+        >
           {loading ? "Submitting..." : "Submit Application"}
         </button>
       </form>
