@@ -1,46 +1,65 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
- 
+
 const STATUS_COLORS = {
   pending: "bg-yellow-100 text-yellow-700",
   approved: "bg-green-100 text-green-700",
   rejected: "bg-red-100 text-red-700",
 };
- 
+
 export default function ShelterApplications() {
   const { token } = useAuth();
+
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [actionLoadingId, setActionLoadingId] = useState(null);
- 
-  const fetchApplications = async () => {
-    setLoading(true);
-    const res = await fetch("/api/applications", { headers: { Authorization: `Bearer ${token}` } });
-    const data = await res.json();
-    setApplications(data);
-    setLoading(false);
+  const [error, setError] = useState("");
+  const [busyId, setBusyId] = useState(null);
+
+  const loadApplications = async () => {
+    try {
+      const res = await fetch("/api/applications", { headers: { Authorization: `Bearer ${token}` } });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to load applications");
+      setApplications(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
- 
+
   useEffect(() => {
-    fetchApplications();
+    loadApplications();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
- 
+
   const handleDecision = async (id, status) => {
-    setActionLoadingId(id);
-    await fetch(`/api/applications/${id}/status`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ status }),
-    });
-    await fetchApplications();
-    setActionLoadingId(null);
+    setBusyId(id);
+    setError("");
+    try {
+      const res = await fetch(`/api/applications/${id}/status`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ status }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Failed to update application");
+      }
+      await loadApplications();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusyId(null);
+    }
   };
- 
+
   return (
     <section className="mx-auto max-w-4xl px-4 py-10">
       <h1 className="text-2xl font-bold text-dark">Adoption Applications</h1>
- 
+
+      {error && <p className="mt-4 rounded-md bg-red-100 px-4 py-2 text-sm text-red-700">{error}</p>}
+
       {loading ? (
         <p className="mt-6 text-gray-500">Loading...</p>
       ) : applications.length === 0 ? (
@@ -56,18 +75,30 @@ export default function ShelterApplications() {
                     {app.animal?.name} <span className="text-gray-400">·</span>{" "}
                     <span className="text-sm font-normal text-gray-600">{app.adopter?.name}</span>
                   </h3>
-                  <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_COLORS[app.status]}`}>{app.status}</span>
+                  <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_COLORS[app.status]}`}>
+                    {app.status}
+                  </span>
                 </div>
-                <p className="mt-1 text-sm text-gray-600">Housing: {app.housingType} · Other pets: {app.hasOtherPets ? "Yes" : "No"}</p>
+                <p className="mt-1 text-sm text-gray-600">
+                  Housing: {app.housingType} · Other pets: {app.hasOtherPets ? "Yes" : "No"}
+                </p>
                 <p className="mt-1 text-sm text-gray-600">Experience: {app.experience}</p>
                 {app.message && <p className="mt-1 text-xs text-gray-400">"{app.message}"</p>}
- 
+
                 {app.status === "pending" && (
                   <div className="mt-3 flex gap-2">
-                    <button onClick={() => handleDecision(app._id, "approved")} disabled={actionLoadingId === app._id} className="rounded-md bg-green-600 px-3 py-1 text-xs font-semibold text-white hover:bg-green-700 disabled:opacity-50">
+                    <button
+                      onClick={() => handleDecision(app._id, "approved")}
+                      disabled={busyId === app._id}
+                      className="rounded-md bg-green-600 px-3 py-1 text-xs font-semibold text-white hover:bg-green-700 disabled:opacity-50"
+                    >
                       Approve
                     </button>
-                    <button onClick={() => handleDecision(app._id, "rejected")} disabled={actionLoadingId === app._id} className="rounded-md bg-red-500 px-3 py-1 text-xs font-semibold text-white hover:bg-red-600 disabled:opacity-50">
+                    <button
+                      onClick={() => handleDecision(app._id, "rejected")}
+                      disabled={busyId === app._id}
+                      className="rounded-md bg-red-500 px-3 py-1 text-xs font-semibold text-white hover:bg-red-600 disabled:opacity-50"
+                    >
                       Reject
                     </button>
                   </div>
