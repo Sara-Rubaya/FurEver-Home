@@ -21,7 +21,7 @@ import MyApplications from "./pages/MyApplications.jsx";
 import ShelterAnimals from "./pages/ShelterAnimals.jsx";
 import ShelterApplications from "./pages/ShelterApplications.jsx";
 import ShelterDashboard from "./pages/ShelterDashboard.jsx";
-
+import VetsNearMe from "./pages/VetsNearMe.jsx";
 
 function Home() {
   return (
@@ -72,6 +72,7 @@ export default function App() {
 
       <main className="flex-grow">
         <Routes>
+          <Route path="/vets" element={<VetsNearMe />} />
           <Route 
           path="/" 
           element={<Home />} />

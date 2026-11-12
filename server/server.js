@@ -9,7 +9,7 @@ import reportRoutes from "./routes/reportRoutes.js";
 import animalRoutes from "./routes/animalRoutes.js";
 import applicationRoutes from "./routes/applicationRoutes.js";
 import shelterRoutes from "./routes/shelterRoutes.js";
-
+import vetRoutes from "./routes/vetRoutes.js";
 dotenv.config();
 
 connectDB();
@@ -43,7 +43,7 @@ app.use("/api/reports", reportRoutes);
 app.use("/api/animals", animalRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/shelter", shelterRoutes);
-
+app.use("/api/vets", vetRoutes);
 // Root
 app.get("/", (req, res) => {
   res.send("FurEver Home API is running...");
