@@ -77,3 +77,17 @@ export const updateReportStatus = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+// @route  GET /api/reports/map   (shelter / admin)
+// @desc   Map pin-er jonno shudhu dorkari field - reporter-er personal info pathano hoy na
+export const getMapReports = async (req, res) => {
+  try {
+    const reports = await Report.find()
+      .select("animalType description photoUrl location status createdAt")
+      .sort({ createdAt: -1 });
+ 
+    res.status(200).json(reports);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
