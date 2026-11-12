@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
+import SosButton from "./components/SosButton.jsx";
+
 import Hero from "./components/Hero.jsx";
 import WhyChooseUs from "./components/WhyChooseUs.jsx";
 import HowItWorks from "./components/HowItWorks.jsx";
@@ -22,8 +24,8 @@ import MyApplications from "./pages/MyApplications.jsx";
 import ShelterAnimals from "./pages/ShelterAnimals.jsx";
 import ShelterApplications from "./pages/ShelterApplications.jsx";
 import ShelterDashboard from "./pages/ShelterDashboard.jsx";
+import ShelterProfile from "./pages/ShelterProfile.jsx";
 
-// Keep both branch changes
 import ReportMap from "./pages/ReportMap.jsx";
 import VetsNearMe from "./pages/VetsNearMe.jsx";
 
@@ -111,6 +113,16 @@ export default function App() {
             }
           />
 
+          {/* Shelter Profile */}
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute allowedRoles={["shelter"]}>
+                <ShelterProfile />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Report Animal */}
           <Route
             path="/report"
@@ -194,6 +206,9 @@ export default function App() {
       </main>
 
       <Footer />
+
+      {/* Emergency SOS Button */}
+      <SosButton />
     </div>
   );
 }
