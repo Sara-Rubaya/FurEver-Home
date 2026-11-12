@@ -29,6 +29,12 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false, // shelter accounts admin verify kora lagbe pore
     },
+    phone: { type: String, default: "" },
+    address: { type: String, default: "" },
+    location: {
+      lat: { type: Number, default: null },
+      lng: { type: Number, default: null },
+    },
   },
   { timestamps: true }
 );

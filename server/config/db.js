@@ -1,13 +1,24 @@
+
 import mongoose from "mongoose";
 
-// MongoDB connect function - server.js theke call hobe
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
+    if (mongoose.connection.readyState === 1) {
+      return;
+    }
+
+    if (!process.env.MONGO_URI) {
+      throw new Error("MONGO_URI is missing in environment variables");
+    }
+
+    await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 10000,
+    });
+
     console.log("MongoDB connected successfully");
   } catch (error) {
     console.error("MongoDB connection failed:", error.message);
-    process.exit(1);
+    throw error;
   }
 };
 

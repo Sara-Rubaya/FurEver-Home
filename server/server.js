@@ -1,3 +1,4 @@
+
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -10,45 +11,61 @@ import animalRoutes from "./routes/animalRoutes.js";
 import applicationRoutes from "./routes/applicationRoutes.js";
 import shelterRoutes from "./routes/shelterRoutes.js";
 import vetRoutes from "./routes/vetRoutes.js";
-dotenv.config();
+import sosRoutes from "./routes/sosRoutes.js";
 
-connectDB();
+dotenv.config();
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://fur-ever-home-client.vercel.app",
+];
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:3000",
-      "https://fur-ever-home-client.vercel.app",
-    ],
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.log("Blocked by CORS:", origin);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
-  
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
 app.use(express.json());
 
-// Auth routes
+// Routes
 app.use("/api/auth", authRoutes);
-
-// Admin routes
 app.use("/api/admin", adminRoutes);
-
-// Report routes
 app.use("/api/reports", reportRoutes);
-
 app.use("/api/animals", animalRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/shelter", shelterRoutes);
 app.use("/api/vets", vetRoutes);
+app.use("/api/sos", sosRoutes);
+
 // Root
 app.get("/", (req, res) => {
   res.send("FurEver Home API is running...");
 });
 
+// Health check
+app.get("/api/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Server is healthy",
+  });
+});
+
+// Database connection
+connectDB();
 
 const PORT = process.env.PORT || 5000;
 
@@ -57,4 +74,5 @@ if (process.env.NODE_ENV !== "production") {
     console.log(`Server running on port ${PORT}`);
   });
 }
+
 export default app;
