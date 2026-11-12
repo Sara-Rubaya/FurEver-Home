@@ -53,6 +53,13 @@ export default function ShelterDashboard() {
           <h3 className="font-semibold text-dark">Rescue Reports</h3>
           <p className="mt-1 text-sm text-gray-500">Stray/injured animal report gulo dekho ar status update koro.</p>
         </Link>
+        <Link to="/report-map" className="rounded-lg border p-5 shadow-sm transition hover:shadow-md">
+  <h3 className="font-semibold text-dark">Rescue Report Map</h3>
+  <p className="mt-1 text-sm text-gray-500">
+    Report gulo map-e dekho - lal = jaruri, sobuj = uddhar hoyeche.
+  </p>
+</Link>
+
       </div>
     </section>
   );

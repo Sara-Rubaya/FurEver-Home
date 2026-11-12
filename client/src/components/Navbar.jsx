@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FaPaw, FaBars, FaTimes } from "react-icons/fa";
@@ -26,28 +27,41 @@ export default function Navbar() {
     { to: "/donate", label: "Donate" },
   ];
 
+  // Role-based navigation links
+  const roleLinks = [...navLinks];
+
+  if (
+    isAuthenticated &&
+    user &&
+    (user.role === "shelter" || user.role === "admin")
+  ) {
+    roleLinks.push({ to: "/dashboard", label: "Dashboard" });
+    roleLinks.push({ to: "/report-map", label: "Report Map" });
+  }
+
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 text-xl font-bold text-dark">
+        <Link
+          to="/"
+          className="flex items-center gap-2 text-xl font-bold text-dark"
+        >
           <FaPaw className="text-primary" />
           FurEver Home
         </Link>
 
         {/* Desktop nav links */}
         <nav className="hidden items-center gap-6 md:flex">
-          {navLinks.map((link) => (
-            <NavLink key={link.to} to={link.to} className={linkClass}>
+          {roleLinks.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              className={linkClass}
+            >
               {link.label}
             </NavLink>
           ))}
-          {isAuthenticated && (user.role === "shelter" || user.role === "admin") && (
-            <NavLink to="/dashboard" className={linkClass}>
-              Dashboard
-            </NavLink>
-          )}
-          
         </nav>
 
         {/* Desktop auth buttons */}
@@ -62,6 +76,7 @@ export default function Navbar() {
                   Hi, <span className="font-semibold text-gray-900">{user.name}</span>
                 </span>
               </span>
+
               <button
                 onClick={handleLogout}
                 className="rounded-md bg-primary px-4 py-2 text-center text-white"
@@ -77,6 +92,7 @@ export default function Navbar() {
               >
                 Login
               </Link>
+
               <Link
                 to="/register"
                 className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-orange-600"
@@ -100,7 +116,7 @@ export default function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="flex flex-col gap-4 border-t px-4 py-4 md:hidden">
-          {navLinks.map((link) => (
+          {roleLinks.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
@@ -110,22 +126,26 @@ export default function Navbar() {
               {link.label}
             </NavLink>
           ))}
-          {isAuthenticated && (user.role === "shelter" || user.role === "admin") && (
-            <NavLink to="/dashboard" className={linkClass} onClick={() => setMenuOpen(false)}>
-              Dashboard
-            </NavLink>
-          )}
-          
+
           <hr />
+
           {isAuthenticated ? (
-            <button onClick={handleLogout} className="text-left text-gray-700">
+            <button
+              onClick={handleLogout}
+              className="text-left text-gray-700"
+            >
               Logout ({user.name})
             </button>
           ) : (
             <>
-              <Link to="/login" onClick={() => setMenuOpen(false)} className="text-gray-700">
+              <Link
+                to="/login"
+                onClick={() => setMenuOpen(false)}
+                className="text-gray-700"
+              >
                 Login
               </Link>
+
               <Link
                 to="/register"
                 onClick={() => setMenuOpen(false)}
