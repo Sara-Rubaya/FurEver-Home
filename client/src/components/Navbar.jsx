@@ -14,25 +14,17 @@ export default function Navbar() {
     navigate("/");
   };
   const navLinks = [
-  { to: "/", label: "Home" },
-  { to: "/animals", label: "Browse Animals" },
-  { to: "/report", label: "Report Animal" },
-  { to: "/vets", label: "Vet Near Me" },
-  { to: "/donate", label: "Donate" },
-];
-
+    { to: "/", label: "Home" },
+    { to: "/animals", label: "Browse Animals" },
+    { to: "/report", label: "Report Animal" },
+    { to: "/vets", label: "Vet Near Me" },
+    { to: "/donate", label: "Donate" },
+  ];
 
   const linkClass = ({ isActive }) =>
     isActive
       ? "text-primary font-semibold"
       : "text-gray-700 hover:text-primary transition-colors";
-
-  const navLinks = [
-    { to: "/", label: "Home" },
-    { to: "/animals", label: "Browse Animals" },
-    { to: "/report", label: "Report Animal" },
-    { to: "/donate", label: "Donate" },
-  ];
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
