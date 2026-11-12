@@ -13,6 +13,14 @@ export default function Navbar() {
     setMenuOpen(false);
     navigate("/");
   };
+  const navLinks = [
+  { to: "/", label: "Home" },
+  { to: "/animals", label: "Browse Animals" },
+  { to: "/report", label: "Report Animal" },
+  { to: "/vets", label: "Vet Near Me" },
+  { to: "/donate", label: "Donate" },
+];
+
 
   const linkClass = ({ isActive }) =>
     isActive
