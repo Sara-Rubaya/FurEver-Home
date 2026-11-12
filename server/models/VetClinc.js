@@ -1,4 +1,4 @@
-import mongoose from &quot;mongoose&quot;;
+import mongoose from "mongoose";
 // Vet clinic schema - FR05 (Vet Near Me), pore FR07/FR08 o eita use korbe
 const vetClinicSchema = new mongoose.Schema(
 {
@@ -9,10 +9,10 @@ lat: { type: Number, required: true },
 lng: { type: Number, required: true },
 },
 phone: { type: String, required: true },
-openingHours: { type: String, default: &quot;&quot; },
-services: { type: String, default: &quot;&quot; }, // comma separated, jemon &quot;Vaccination, Surgery&quot;
+openingHours: { type: String, default: "" },
+services: { type: String, default: "" }, // comma separated, jemon "Vaccination, Surgery"
 emergencyAvailable: { type: Boolean, default: false },
 },
 { timestamps: true }
 );
-export default mongoose.model(&quot;VetClinic&quot;, vetClinicSchema);
+export default mongoose.model("VetClinic", vetClinicSchema);

@@ -1,12 +1,12 @@
-import express from &quot;express&quot;;
-import { getNearbyVets, getAllVets, createVet, deleteVet } from &quot;../controllers/vetController.js&quot;;
-import { protect } from &quot;../middleware/authMiddleware.js&quot;;
-import { authorize } from &quot;../middleware/roleMiddleware.js&quot;;
+import express from "express";
+import { getNearbyVets, getAllVets, createVet, deleteVet } from "../controllers/vetControler.js";
+import { protect } from "../middleware/authMiddleware.js";
+import { authorize } from "../middleware/roleMiddleware.js";
 const router = express.Router();
 // Public
-router.get(&quot;/nearby&quot;, getNearbyVets); // &quot;/:id&quot; er age thakte hobe
-router.get(&quot;/&quot;, getAllVets);
+router.get("/nearby", getNearbyVets); // "/:id" er age thakte hobe
+router.get("/", getAllVets);
 // Admin only
-router.post(&quot;/&quot;, protect, authorize(&quot;admin&quot;), createVet);
-router.delete(&quot;/:id&quot;, protect, authorize(&quot;admin&quot;), deleteVet);
+router.post("/", protect, authorize("admin"), createVet);
+router.delete("/:id", protect, authorize("admin"), deleteVet);
 export default router;
