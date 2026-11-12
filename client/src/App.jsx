@@ -22,7 +22,10 @@ import MyApplications from "./pages/MyApplications.jsx";
 import ShelterAnimals from "./pages/ShelterAnimals.jsx";
 import ShelterApplications from "./pages/ShelterApplications.jsx";
 import ShelterDashboard from "./pages/ShelterDashboard.jsx";
+
+// Keep both branch changes
 import ReportMap from "./pages/ReportMap.jsx";
+import VetsNearMe from "./pages/VetsNearMe.jsx";
 
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { useAuth } from "./context/AuthContext.jsx";
@@ -83,24 +86,19 @@ function Unauthorized() {
 export default function App() {
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Navbar */}
       <Navbar />
 
-      {/* Main Content */}
       <main className="flex-grow">
         <Routes>
-
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
+          <Route path="/vets" element={<VetsNearMe />} />
 
           <Route path="/login" element={<Login />} />
-
           <Route path="/register" element={<Register />} />
-
           <Route path="/unauthorized" element={<Unauthorized />} />
 
           <Route path="/animals" element={<Animals />} />
-
           <Route path="/animals/:id" element={<AnimalDetails />} />
 
           {/* Dashboard - Shelter & Admin */}
@@ -192,11 +190,9 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-
         </Routes>
       </main>
 
-      {/* Footer */}
       <Footer />
     </div>
   );

@@ -15,15 +15,11 @@ export default function Navbar() {
     navigate("/");
   };
 
-  const linkClass = ({ isActive }) =>
-    isActive
-      ? "text-primary font-semibold"
-      : "text-gray-700 hover:text-primary transition-colors";
-
   const navLinks = [
     { to: "/", label: "Home" },
     { to: "/animals", label: "Browse Animals" },
     { to: "/report", label: "Report Animal" },
+    { to: "/vets", label: "Vet Near Me" },
     { to: "/donate", label: "Donate" },
   ];
 
@@ -38,6 +34,12 @@ export default function Navbar() {
     roleLinks.push({ to: "/dashboard", label: "Dashboard" });
     roleLinks.push({ to: "/report-map", label: "Report Map" });
   }
+
+  // Active navigation link styling
+  const linkClass = ({ isActive }) =>
+    isActive
+      ? "text-primary font-semibold"
+      : "text-gray-700 hover:text-primary transition-colors";
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
@@ -72,6 +74,7 @@ export default function Navbar() {
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-violet-600 text-xs font-bold text-white">
                   {user.name?.charAt(0).toUpperCase()}
                 </span>
+
                 <span>
                   Hi, <span className="font-semibold text-gray-900">{user.name}</span>
                 </span>
