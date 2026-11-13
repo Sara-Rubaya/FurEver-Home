@@ -14,12 +14,13 @@ export default function Navbar() {
     setMenuOpen(false);
     navigate("/");
   };
-
+  
   const navLinks = [
     { to: "/", label: "Home" },
     { to: "/animals", label: "Browse Animals" },
     { to: "/report", label: "Report Animal" },
     { to: "/vets", label: "Vet Near Me" },
+    { to: "/vet-directory", label: "Vet Directory" },
   ];
 
   // Role-based navigation links

@@ -1,4 +1,4 @@
-import VetClinic from "../models/VetClinc.js";
+import VetClinic from "../models/VetClinic.js";
 import User from "../models/User.js";
 import { searchContacts } from "../utils/sosSearch.js";
  

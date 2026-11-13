@@ -1,4 +1,4 @@
-import VetClinic from "../models/VetClinc.js";
+import VetClinic from "../models/VetClinic.js";
 
 // Haversine formula - dui coordinate-er moddhe shoja doori (km) ber kore
 const getDistanceKm = (lat1, lng1, lat2, lng2) => {
