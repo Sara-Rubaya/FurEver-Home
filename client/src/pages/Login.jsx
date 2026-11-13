@@ -1,7 +1,13 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
+import {
+  Mail,
+  Lock,
+  ArrowRight,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 import { DotLottiePlayer } from "@dotlottie/react-player";
 import { useAuth } from "../context/AuthContext.jsx";
 
@@ -30,6 +36,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setError("");
     setLoading(true);
 
@@ -39,21 +46,41 @@ export default function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          email: formData.email.trim().toLowerCase(),
+          password: formData.password,
+        }),
       });
 
       const data = await res.json();
 
+      // Debugging
+      console.log("Login Status:", res.status);
+      console.log("Login Response:", data);
+
       if (!res.ok) {
-        throw new Error(data.message || "Login failed");
+        throw new Error(
+          data.message || "Invalid email or password"
+        );
       }
 
-      // Save token + user through AuthContext
+      if (!data.user || !data.token) {
+        throw new Error("Invalid server response");
+      }
+
+      // Save token and user through AuthContext
       login(data.user, data.token);
 
+      // Redirect after successful login
       navigate("/");
     } catch (err) {
-      setError(err.message || "Something went wrong");
+      console.error("Login Error:", err);
+
+      setError(
+        err.message === "Failed to fetch"
+          ? "Unable to connect to server. Please try again."
+          : err.message || "Something went wrong"
+      );
     } finally {
       setLoading(false);
     }
@@ -63,11 +90,14 @@ export default function Login() {
     <section className="mx-auto flex min-h-[80vh] w-full max-w-6xl items-center justify-center px-2 py-6 sm:px-4 sm:py-10">
       {/* Main Card */}
       <div className="w-full overflow-hidden rounded-2xl border border-orange-100 bg-white shadow-xl shadow-orange-900/5">
+
         {/* Always 2 Columns */}
         <div className="grid grid-cols-2">
+
           {/* LEFT SIDE - LOTTIE */}
           <div className="flex min-h-[500px] items-center justify-center p-3 sm:p-6 md:p-10">
             <div className="w-full max-w-md text-center">
+
               {/* Lottie Animation */}
               <div className="mx-auto h-32 w-32 sm:h-48 sm:w-48 md:h-64 md:w-64 lg:h-72 lg:w-72">
                 <DotLottiePlayer
@@ -91,6 +121,7 @@ export default function Login() {
 
           {/* RIGHT SIDE - LOGIN FORM */}
           <div className="p-3 sm:p-5 md:p-8 lg:p-10">
+
             {/* Heading */}
             <div className="text-center">
               <h2 className="text-lg font-semibold tracking-tight text-slate-900 sm:text-xl md:text-2xl">
@@ -114,6 +145,7 @@ export default function Login() {
               onSubmit={handleSubmit}
               className="mt-4 space-y-2.5 sm:mt-6 sm:space-y-4"
             >
+
               {/* EMAIL */}
               <div>
                 <label
@@ -167,10 +199,14 @@ export default function Login() {
                   {/* Show / Hide Password */}
                   <button
                     type="button"
-                    onClick={() => setShowPassword((v) => !v)}
+                    onClick={() =>
+                      setShowPassword((v) => !v)
+                    }
                     className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 sm:right-3"
                     aria-label={
-                      showPassword ? "Hide password" : "Show password"
+                      showPassword
+                        ? "Hide password"
+                        : "Show password"
                     }
                   >
                     {showPassword ? (
@@ -215,4 +251,3 @@ export default function Login() {
     </section>
   );
 }
-
