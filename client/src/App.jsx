@@ -31,6 +31,9 @@ import VetsNearMe from "./pages/VetsNearMe.jsx";
 
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { useAuth } from "./context/AuthContext.jsx";
+import VetDirectory from "./pages/VetDirectory.jsx";
+import VetDetails from "./pages/VetDetails.jsx";
+
 
 // Home Page
 function Home() {
@@ -93,6 +96,9 @@ export default function App() {
       <main className="flex-grow">
         <Routes>
           {/* Public Routes */}
+          <Route path="/vet-directory" element={<VetDirectory />} />
+          <Route path="/vet-directory/:id" element={<VetDetails />} />
+
           <Route path="/" element={<Home />} />
           <Route path="/vets" element={<VetsNearMe />} />
 
