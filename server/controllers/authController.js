@@ -5,14 +5,23 @@ import User from "../models/User.js";
 
 // JWT token generate
 const generateToken = (user) => {
-  if (!process.env.JWT_SECRET) {
-    throw new Error("JWT_SECRET is missing in environment variables");
+  const secret = process.env.JWT_SECRET;
+
+  if (!secret) {
+    throw new Error(
+      "JWT_SECRET is missing in environment variables"
+    );
   }
 
   return jwt.sign(
-    { id: user._id, role: user.role },
-    process.env.JWT_SECRET,
-    { expiresIn: "7d" }
+    {
+      id: user._id,
+      role: user.role,
+    },
+    secret,
+    {
+      expiresIn: "7d",
+    }
   );
 };
 
@@ -74,7 +83,6 @@ export const registerUser = async (req, res) => {
   } catch (error) {
     console.error("REGISTER ERROR:", error);
 
-    // MongoDB duplicate email error
     if (error.code === 11000) {
       return res.status(400).json({
         message: "Email already registered",
@@ -93,7 +101,7 @@ export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
+    if (!email?.trim() || !password) {
       return res.status(400).json({
         message: "Please fill all fields",
       });
@@ -104,28 +112,34 @@ export const loginUser = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(400).json({
+      return res.status(401).json({
         message: "Invalid email or password",
       });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(
+      password,
+      user.password
+    );
 
     if (!isMatch) {
-      return res.status(400).json({
+      return res.status(401).json({
         message: "Invalid email or password",
       });
     }
 
+    // Generate JWT
     const token = generateToken(user);
 
     return res.status(200).json({
+      message: "Login successful",
       token,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
         role: user.role,
+        isVerified: user.isVerified,
       },
     });
   } catch (error) {

@@ -20,7 +20,6 @@ export default function Navbar() {
     { to: "/animals", label: "Browse Animals" },
     { to: "/report", label: "Report Animal" },
     { to: "/vets", label: "Vet Near Me" },
-    { to: "/donate", label: "Donate" },
   ];
 
   // Role-based navigation links
@@ -38,23 +37,24 @@ export default function Navbar() {
   // Active navigation link styling
   const linkClass = ({ isActive }) =>
     isActive
-      ? "text-primary font-semibold"
-      : "text-gray-700 hover:text-primary transition-colors";
+      ? "font-semibold text-[#DC2626]"
+      : "text-[#7F1D1D]/80 transition-colors duration-200 hover:text-[#F97316]";
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-sm">
+    <header className="sticky top-0 z-50 border-b border-[#FDBA74]/50 bg-[#FFF7ED]/95 shadow-sm backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+
         {/* Logo */}
         <Link
           to="/"
-          className="flex items-center gap-2 text-xl font-bold text-dark"
+          className="flex items-center gap-2 text-xl font-bold text-[#7F1D1D]"
         >
-          <FaPaw className="text-primary" />
-          FurEver Home
+          <FaPaw className="text-2xl text-[#F97316]" />
+          <span>FurEver Home</span>
         </Link>
 
         {/* Desktop nav links */}
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
           {roleLinks.map((link) => (
             <NavLink
               key={link.to}
@@ -70,19 +70,19 @@ export default function Navbar() {
         <div className="hidden items-center gap-3 md:flex">
           {isAuthenticated ? (
             <>
-              <span className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-50 to-purple-50 px-4 py-2 text-sm font-medium text-violet-700 shadow-sm ring-1 ring-violet-100">
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-violet-600 text-xs font-bold text-white">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#FDBA74]/60 bg-[#FFE4C7] px-4 py-2 text-sm font-medium text-[#7F1D1D]">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#DC2626] text-sm font-bold text-white">
                   {user.name?.charAt(0).toUpperCase()}
                 </span>
 
                 <span>
-                  Hi, <span className="font-semibold text-gray-900">{user.name}</span>
+                  Hi, <span className="font-semibold">{user.name}</span>
                 </span>
               </span>
 
               <button
                 onClick={handleLogout}
-                className="rounded-md bg-primary px-4 py-2 text-center text-white"
+                className="rounded-lg bg-[#7F1D1D] px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-[#DC2626] hover:shadow-md"
               >
                 Logout
               </button>
@@ -91,14 +91,14 @@ export default function Navbar() {
             <>
               <Link
                 to="/login"
-                className="rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary"
+                className="rounded-lg px-4 py-2.5 text-sm font-semibold text-[#7F1D1D] transition-colors hover:text-[#F97316]"
               >
                 Login
               </Link>
 
               <Link
                 to="/register"
-                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-orange-600"
+                className="rounded-lg bg-[#DC2626] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#7F1D1D] hover:shadow-md"
               >
                 Register
               </Link>
@@ -108,7 +108,7 @@ export default function Navbar() {
 
         {/* Mobile menu button */}
         <button
-          className="text-2xl text-dark md:hidden"
+          className="text-2xl text-[#7F1D1D] transition-colors hover:text-[#F97316] md:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -118,7 +118,8 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="flex flex-col gap-4 border-t px-4 py-4 md:hidden">
+        <div className="flex flex-col gap-4 border-t border-[#FDBA74]/50 bg-[#FFF7ED] px-5 py-5 shadow-lg md:hidden">
+
           {roleLinks.map((link) => (
             <NavLink
               key={link.to}
@@ -130,21 +131,27 @@ export default function Navbar() {
             </NavLink>
           ))}
 
-          <hr />
+          <hr className="border-[#FDBA74]/60" />
 
           {isAuthenticated ? (
-            <button
-              onClick={handleLogout}
-              className="text-left text-gray-700"
-            >
-              Logout ({user.name})
-            </button>
+            <>
+              <div className="rounded-lg bg-[#FFE4C7] px-4 py-3 text-sm font-medium text-[#7F1D1D]">
+                Hi, {user.name}
+              </div>
+
+              <button
+                onClick={handleLogout}
+                className="rounded-lg bg-[#7F1D1D] px-4 py-2.5 text-left font-semibold text-white transition-colors hover:bg-[#DC2626]"
+              >
+                Logout
+              </button>
+            </>
           ) : (
             <>
               <Link
                 to="/login"
                 onClick={() => setMenuOpen(false)}
-                className="text-gray-700"
+                className="font-medium text-[#7F1D1D] transition-colors hover:text-[#F97316]"
               >
                 Login
               </Link>
@@ -152,7 +159,7 @@ export default function Navbar() {
               <Link
                 to="/register"
                 onClick={() => setMenuOpen(false)}
-                className="rounded-md bg-primary px-4 py-2 text-center text-white"
+                className="rounded-lg bg-[#DC2626] px-4 py-2.5 text-center font-semibold text-white transition-colors hover:bg-[#7F1D1D]"
               >
                 Register
               </Link>
