@@ -8,9 +8,7 @@ const generateToken = (user) => {
   const secret = process.env.JWT_SECRET;
 
   if (!secret) {
-    throw new Error(
-      "JWT_SECRET is missing in environment variables"
-    );
+    throw new Error("JWT_SECRET is missing in environment variables");
   }
 
   return jwt.sign(
@@ -101,30 +99,50 @@ export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // Validate fields
     if (!email?.trim() || !password) {
       return res.status(400).json({
         message: "Please fill all fields",
       });
     }
 
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // Find user
     const user = await User.findOne({
-      email: email.trim().toLowerCase(),
+      email: normalizedEmail,
     });
 
+    console.log("========== LOGIN DEBUG ==========");
+    console.log("Email:", normalizedEmail);
+    console.log("User Found:", !!user);
+
     if (!user) {
+      console.log("RESULT: Email not found");
+
       return res.status(401).json({
-        message: "Invalid email or password",
+        message: "Email not registered. Please register first.",
       });
     }
 
+    console.log("Password Exists:", !!user.password);
+    console.log(
+      "Password Hash Format:",
+      user.password?.startsWith("$2")
+    );
+
+    // Compare password
     const isMatch = await bcrypt.compare(
       password,
       user.password
     );
 
+    console.log("Password Matched:", isMatch);
+    console.log("=================================");
+
     if (!isMatch) {
       return res.status(401).json({
-        message: "Invalid email or password",
+        message: "Incorrect password. Please try again.",
       });
     }
 
