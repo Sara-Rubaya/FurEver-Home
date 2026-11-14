@@ -1,0 +1,8 @@
+# Environment variables - kokhono commit korbe na
+.env
+.env.*
+!.env.example
+
+# Dependencies ar build
+node_modules/
+dist/

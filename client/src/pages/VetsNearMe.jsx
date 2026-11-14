@@ -65,7 +65,7 @@ export default function VetsNearMe() {
     <section className="mx-auto max-w-5xl px-4 py-10">
       <h1 className="text-2xl font-bold text-dark">Vet Near Me</h1>
       <p className="mt-1 text-sm text-gray-600">
-        Tomar location-er kache thaka vet clinic gulo doori onujayi dekho.
+        View the nearby vet clinics based on their distance from your location.
       </p>
  
       {/* Controls */}
