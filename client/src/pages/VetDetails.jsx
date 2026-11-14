@@ -34,10 +34,10 @@ export default function VetDetails() {
  
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [id]);
  
-  // Logged-in user-er nijer ager review (thakle form-e prefill hobe)
+  
   const myReview = isAuthenticated ? reviews.find((r) => r.user?._id === user.id) : null;
  
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function VetDetails() {
       setRating(myReview.rating);
       setComment(myReview.comment || "");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [myReview?._id]);
  
   const handleSubmit = async (e) => {

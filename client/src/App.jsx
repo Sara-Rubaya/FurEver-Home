@@ -33,6 +33,7 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { useAuth } from "./context/AuthContext.jsx";
 import VetDirectory from "./pages/VetDirectory.jsx";
 import VetDetails from "./pages/VetDetails.jsx";
+import FeaturedAnimals from "./components/FeaturedAnimals.jsx";
 
 
 // Home Page
@@ -40,6 +41,7 @@ function Home() {
   return (
     <>
       <Hero />
+      <FeaturedAnimals />
       <WhyChooseUs />
       <HowItWorks />
       <FAQ />

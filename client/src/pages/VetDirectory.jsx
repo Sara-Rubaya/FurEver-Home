@@ -38,10 +38,10 @@ export default function VetDirectory() {
   };
  
   useEffect(() => {
-    // Search-e type korar somoy beshi request na jay, tai 300ms debounce
+    
     const t = setTimeout(fetchClinics, 300);
     return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [filters]);
  
   const setFilter = (key, value) => setFilters((prev) => ({ ...prev, [key]: value }));
@@ -103,7 +103,7 @@ export default function VetDirectory() {
       <div className="flex items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold text-dark">Vet Clinic Directory</h1>
-          <p className="mt-1 text-sm text-gray-600">Clinic khuje bero, rating dekho ar nijer review dao.</p>
+          <p className="mt-1 text-sm text-gray-600">Find clinics, check their ratings, and share your own review.</p>
         </div>
         {isAdmin && (
           <button
@@ -116,7 +116,7 @@ export default function VetDirectory() {
         )}
       </div>
  
-      {/* Admin: notun clinic add */}
+      {/* Admin: new clinic add */}
       {isAdmin && showForm && (
         <form onSubmit={handleAdd} className="mt-5 flex flex-col gap-3 rounded-lg border p-5 shadow-sm">
           {formError && <p className="rounded-md bg-red-100 px-4 py-2 text-sm text-red-700">{formError}</p>}
