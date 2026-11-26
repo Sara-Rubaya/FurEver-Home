@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FaPaw, FaBars, FaTimes } from "react-icons/fa";
@@ -25,6 +24,10 @@ export default function Navbar() {
 
   // Role-based navigation links
   const roleLinks = [...navLinks];
+
+  if (isAuthenticated) {
+    roleLinks.push({ to: "/health-passports", label: "Health Passports" });
+  }
 
   if (
     isAuthenticated &&

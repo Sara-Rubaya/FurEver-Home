@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -218,6 +217,16 @@ export default function ShelterDashboard() {
       iconBg: "bg-orange-50",
       iconColor: "text-[#F97316]",
       tag: "Explore Map",
+    },
+    {
+      title: "Pet Health Passports",
+      description:
+        "Manage vaccination records, microchip IDs, and medical histories for your animals.",
+      path: "/health-passports",
+      icon: ShieldCheck,
+      iconBg: "bg-orange-50",
+      iconColor: "text-[#F97316]",
+      tag: "Manage Passports",
     },
     {
       title: "Contact & Location",

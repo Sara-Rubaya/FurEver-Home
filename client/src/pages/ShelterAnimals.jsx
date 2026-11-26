@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Plus, Trash2, Camera, X } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Plus, Trash2, Camera, X, ShieldCheck } from "lucide-react";
 import { useAuth } from "../context/AuthContext.jsx";
 
 const STATUS_BADGE = {
@@ -200,12 +201,20 @@ export default function ShelterAnimals() {
                   </span>
                 </div>
                 <p className="mt-1 text-sm text-gray-500">{a.breed} · {a.age} yrs · {a.gender}</p>
-                <button
-                  onClick={() => handleDelete(a._id)}
-                  className="mt-3 flex items-center gap-1 text-sm text-red-500 hover:text-red-700"
-                >
-                  <Trash2 className="h-4 w-4" /> Delete
-                </button>
+                <div className="mt-3 flex items-center justify-between gap-2">
+                  <Link
+                    to={`/animals/${a._id}/passport`}
+                    className="inline-flex items-center gap-1 rounded-md bg-[#FFF7ED] px-2.5 py-1 text-xs font-semibold text-[#7F1D1D] ring-1 ring-[#FDBA74] hover:bg-[#FFE4C7]"
+                  >
+                    <ShieldCheck className="h-3.5 w-3.5 text-[#DC2626]" /> Health Passport
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(a._id)}
+                    className="flex items-center gap-1 text-sm text-red-500 hover:text-red-700"
+                  >
+                    <Trash2 className="h-4 w-4" /> Delete
+                  </button>
+                </div>
               </div>
             </div>
           ))}
