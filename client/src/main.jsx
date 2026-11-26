@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import "./index.css";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import AOS from "aos";
+import "aos/dist/aos.css";
 
 AOS.init({
   duration: 700,

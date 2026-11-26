@@ -60,6 +60,14 @@ export default function MyApplications() {
                   Housing: {app.housingType} · Other pets: {app.hasOtherPets ? "Yes" : "No"}
                 </p>
                 {app.message && <p className="mt-1 text-xs text-gray-400">"{app.message}"</p>}
+                {app.status === "approved" && app.animal?._id && (
+                  <Link
+                    to={`/animals/${app.animal._id}/passport`}
+                    className="mt-2 inline-block text-xs font-semibold text-[#DC2626] hover:underline"
+                  >
+                    View & Manage Pet Health Passport →
+                  </Link>
+                )}
               </div>
             </div>
           ))}
