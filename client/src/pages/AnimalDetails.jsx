@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { ShieldCheck } from "lucide-react";
 import { useAuth } from "../context/AuthContext.jsx";
 
 const STATUS_BADGE = {
@@ -62,7 +63,15 @@ export default function AnimalDetails() {
 
           <p className="mt-5 text-gray-700">{animal.description}</p>
 
-          <div className="mt-6">
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <Link
+              to={`/animals/${animal._id}/passport`}
+              className="inline-flex items-center gap-1.5 rounded-md border border-[#7F1D1D] bg-[#FFF7ED] px-5 py-3 text-sm font-semibold text-[#7F1D1D] transition hover:bg-[#FFE4C7]"
+            >
+              <ShieldCheck className="h-4 w-4 text-[#DC2626]" />
+              Health Passport
+            </Link>
+
             {canApply ? (
               <Link
                 to={`/animals/${animal._id}/apply`}

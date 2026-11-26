@@ -1,4 +1,3 @@
-
 import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar.jsx";
@@ -34,6 +33,8 @@ import { useAuth } from "./context/AuthContext.jsx";
 import VetDirectory from "./pages/VetDirectory.jsx";
 import VetDetails from "./pages/VetDetails.jsx";
 import FeaturedAnimals from "./components/FeaturedAnimals.jsx";
+import PetHealthPassport from "./pages/PetHealthPassport.jsx";
+import HealthPassports from "./pages/HealthPassports.jsx";
 
 
 // Home Page
@@ -110,6 +111,17 @@ export default function App() {
 
           <Route path="/animals" element={<Animals />} />
           <Route path="/animals/:id" element={<AnimalDetails />} />
+          <Route path="/animals/:id/passport" element={<PetHealthPassport />} />
+
+          {/* Health Passports Hub - Logged-in Users */}
+          <Route
+            path="/health-passports"
+            element={
+              <ProtectedRoute>
+                <HealthPassports />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Dashboard - Shelter & Admin */}
           <Route
