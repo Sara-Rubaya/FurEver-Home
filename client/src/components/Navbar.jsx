@@ -170,6 +170,7 @@ export default function Navbar() {
     { to: "/", label: "Home" },
     { to: "/animals", label: "Browse Animals" },
     { to: "/report", label: "Report Animal" },
+    { to: "/success-stories", label: "Success Stories" },
     { to: "/donate", label: "Donate" },
   ];
 

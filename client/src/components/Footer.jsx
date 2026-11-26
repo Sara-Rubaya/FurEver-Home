@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import {
   FaPaw,
@@ -53,6 +52,11 @@ export default function Footer() {
             <li>
               <Link to="/report" className="transition-colors hover:text-[#F97316]">
                 Report Animal
+              </Link>
+            </li>
+            <li>
+              <Link to="/success-stories" className="transition-colors hover:text-[#F97316]">
+                Success Stories
               </Link>
             </li>
             <li>
