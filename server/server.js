@@ -12,6 +12,7 @@ import shelterRoutes from "./routes/shelterRoutes.js";
 import vetRoutes from "./routes/vetRoutes.js";
 import sosRoutes from "./routes/sosRoutes.js";
 import healthPassportRoutes from "./routes/healthPassportRoutes.js";
+import donationRoutes from "./routes/donationRoutes.js";   
 
 dotenv.config();
 
@@ -51,6 +52,7 @@ app.use("/api/shelter", shelterRoutes);
 app.use("/api/vets", vetRoutes);
 app.use("/api/sos", sosRoutes);
 app.use("/api/passports", healthPassportRoutes);
+app.use("/api/donations", donationRoutes);                 
 
 // Root
 app.get("/", (req, res) => {

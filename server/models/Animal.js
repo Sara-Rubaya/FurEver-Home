@@ -20,5 +20,6 @@ const animalSchema = new mongoose.Schema(
 
 // faster lookups for the listing page and the shelter dashboard
 animalSchema.index({ status: 1, shelter: 1 });
+sponsorGoal: { type: Number, default: 0, min: 0 }, 
 
 export default mongoose.model("Animal", animalSchema);

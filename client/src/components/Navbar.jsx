@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FaPaw, FaBars, FaTimes } from "react-icons/fa";
@@ -13,29 +14,52 @@ export default function Navbar() {
     setMenuOpen(false);
     navigate("/");
   };
-  
+
   const navLinks = [
     { to: "/", label: "Home" },
     { to: "/animals", label: "Browse Animals" },
     { to: "/report", label: "Report Animal" },
     { to: "/vets", label: "Vet Near Me" },
     { to: "/vet-directory", label: "Vet Directory" },
+    { to: "/donate", label: "Donate" },
   ];
 
   // Role-based navigation links
   const roleLinks = [...navLinks];
 
   if (isAuthenticated) {
-    roleLinks.push({ to: "/health-passports", label: "Health Passports" });
+    roleLinks.push({
+      to: "/health-passports",
+      label: "Health Passports",
+    });
+
+    // My Donations for authenticated users
+    roleLinks.push({
+      to: "/my-donations",
+      label: "My Donations",
+    });
   }
 
+  // Shelter / Admin navigation
   if (
     isAuthenticated &&
     user &&
     (user.role === "shelter" || user.role === "admin")
   ) {
-    roleLinks.push({ to: "/dashboard", label: "Dashboard" });
-    roleLinks.push({ to: "/report-map", label: "Report Map" });
+    roleLinks.push({
+      to: "/dashboard",
+      label: "Dashboard",
+    });
+
+    roleLinks.push({
+      to: "/report-map",
+      label: "Report Map",
+    });
+
+    roleLinks.push({
+      to: "/shelter-donations",
+      label: "Donations",
+    });
   }
 
   // Active navigation link styling
@@ -57,7 +81,7 @@ export default function Navbar() {
           <span>FurEver Home</span>
         </Link>
 
-        {/* Desktop nav links */}
+        {/* Desktop Navigation */}
         <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
           {roleLinks.map((link) => (
             <NavLink
@@ -70,7 +94,7 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* Desktop auth buttons */}
+        {/* Desktop Auth Buttons */}
         <div className="hidden items-center gap-3 md:flex">
           {isAuthenticated ? (
             <>
@@ -110,7 +134,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile menu button */}
+        {/* Mobile Menu Button */}
         <button
           className="text-2xl text-[#7F1D1D] transition-colors hover:text-[#F97316] md:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -120,7 +144,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       {menuOpen && (
         <div className="flex flex-col gap-4 border-t border-[#FDBA74]/50 bg-[#FFF7ED] px-5 py-5 shadow-lg md:hidden">
 

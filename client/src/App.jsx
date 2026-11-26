@@ -35,6 +35,11 @@ import VetDetails from "./pages/VetDetails.jsx";
 import FeaturedAnimals from "./components/FeaturedAnimals.jsx";
 import PetHealthPassport from "./pages/PetHealthPassport.jsx";
 import HealthPassports from "./pages/HealthPassports.jsx";
+import Donate from "./pages/Donate.jsx";
+import DonateForm from "./pages/DonateForm.jsx";
+import MyDonations from "./pages/MyDonations.jsx";
+import ShelterDonations from "./pages/ShelterDonations.jsx";
+
 
 
 // Home Page
@@ -222,6 +227,19 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          {/* FR12 - Donation / Sponsor a Pet */}
+<Route path="/donate" element={<Donate />} />
+<Route path="/donate/new" element={<ProtectedRoute><DonateForm /></ProtectedRoute>} />
+<Route path="/my-donations" element={<ProtectedRoute><MyDonations /></ProtectedRoute>} />
+<Route
+  path="/shelter-donations"
+  element={
+    <ProtectedRoute allowedRoles={["shelter", "admin"]}>
+      <ShelterDonations />
+    </ProtectedRoute>
+  }
+/>
+
         </Routes>
       </main>
 
