@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 const animalSchema = new mongoose.Schema(
@@ -12,14 +13,27 @@ const animalSchema = new mongoose.Schema(
     healthStatus: { type: String, trim: true, default: "Vaccinated" },
     temperament: { type: String, trim: true, default: "Friendly" },
     photoUrl: { type: String, required: true },
-    status: { type: String, enum: ["available", "pending", "adopted"], default: "available" },
-    shelter: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    status: {
+      type: String,
+      enum: ["available", "pending", "adopted"],
+      default: "available"
+    },
+    shelter: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true
+    },
+
+    sponsorGoal: {
+      type: Number,
+      default: 0,
+      min: 0
+    }, // FR12 - 0 means sponsorship off
   },
   { timestamps: true }
 );
 
-// faster lookups for the listing page and the shelter dashboard
+// Faster lookups for the listing page and shelter dashboard
 animalSchema.index({ status: 1, shelter: 1 });
-sponsorGoal: { type: Number, default: 0, min: 0 }, 
 
 export default mongoose.model("Animal", animalSchema);
