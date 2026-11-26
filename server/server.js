@@ -14,6 +14,8 @@ import sosRoutes from "./routes/sosRoutes.js";
 import healthPassportRoutes from "./routes/healthPassportRoutes.js";
 import donationRoutes from "./routes/donationRoutes.js";   
 
+import storyRoutes from "./routes/storyRoutes.js";
+
 dotenv.config();
 
 const app = express();
@@ -52,7 +54,8 @@ app.use("/api/shelter", shelterRoutes);
 app.use("/api/vets", vetRoutes);
 app.use("/api/sos", sosRoutes);
 app.use("/api/passports", healthPassportRoutes);
-app.use("/api/donations", donationRoutes);                 
+app.use("/api/donations", donationRoutes);
+app.use("/api/stories", storyRoutes);
 
 // Root
 app.get("/", (req, res) => {

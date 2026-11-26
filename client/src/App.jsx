@@ -39,7 +39,7 @@ import Donate from "./pages/Donate.jsx";
 import DonateForm from "./pages/DonateForm.jsx";
 import MyDonations from "./pages/MyDonations.jsx";
 import ShelterDonations from "./pages/ShelterDonations.jsx";
-
+import SuccessStories from "./pages/SuccessStories.jsx";
 
 
 // Home Page
@@ -117,6 +117,7 @@ export default function App() {
           <Route path="/animals" element={<Animals />} />
           <Route path="/animals/:id" element={<AnimalDetails />} />
           <Route path="/animals/:id/passport" element={<PetHealthPassport />} />
+          <Route path="/success-stories" element={<SuccessStories />} />
 
           {/* Health Passports Hub - Logged-in Users */}
           <Route

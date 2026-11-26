@@ -61,12 +61,20 @@ export default function MyApplications() {
                 </p>
                 {app.message && <p className="mt-1 text-xs text-gray-400">"{app.message}"</p>}
                 {app.status === "approved" && app.animal?._id && (
-                  <Link
-                    to={`/animals/${app.animal._id}/passport`}
-                    className="mt-2 inline-block text-xs font-semibold text-[#DC2626] hover:underline"
-                  >
-                    View & Manage Pet Health Passport →
-                  </Link>
+                  <div className="mt-2 flex flex-wrap gap-4">
+                    <Link
+                      to={`/animals/${app.animal._id}/passport`}
+                      className="inline-block text-xs font-semibold text-[#DC2626] hover:underline"
+                    >
+                      View & Manage Pet Health Passport →
+                    </Link>
+                    <Link
+                      to="/success-stories"
+                      className="inline-block text-xs font-semibold text-[#F97316] hover:underline"
+                    >
+                      Share Success Story →
+                    </Link>
+                  </div>
                 )}
               </div>
             </div>

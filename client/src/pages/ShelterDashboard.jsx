@@ -229,6 +229,16 @@ export default function ShelterDashboard() {
       tag: "Manage Passports",
     },
     {
+      title: "Success Stories Wall",
+      description:
+        "Share inspiring rescue-to-forever-home transformations and celebrate adopted pets.",
+      path: "/success-stories",
+      icon: Heart,
+      iconBg: "bg-red-50",
+      iconColor: "text-[#DC2626]",
+      tag: "View Stories",
+    },
+    {
       title: "Contact & Location",
       description:
         "Update your phone number and location to appear in Emergency SOS.",
