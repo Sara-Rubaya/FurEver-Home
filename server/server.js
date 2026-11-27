@@ -15,6 +15,7 @@ import healthPassportRoutes from "./routes/healthPassportRoutes.js";
 import donationRoutes from "./routes/donationRoutes.js";   
 
 import storyRoutes from "./routes/storyRoutes.js";
+import lostFoundRoutes from "./routes/lostFoundRoutes.js";
 
 dotenv.config();
 
@@ -56,6 +57,7 @@ app.use("/api/sos", sosRoutes);
 app.use("/api/passports", healthPassportRoutes);
 app.use("/api/donations", donationRoutes);
 app.use("/api/stories", storyRoutes);
+app.use("/api/lost-found", lostFoundRoutes);
 
 // Root
 app.get("/", (req, res) => {
