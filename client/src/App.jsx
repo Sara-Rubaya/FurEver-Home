@@ -40,6 +40,9 @@ import DonateForm from "./pages/DonateForm.jsx";
 import MyDonations from "./pages/MyDonations.jsx";
 import ShelterDonations from "./pages/ShelterDonations.jsx";
 import SuccessStories from "./pages/SuccessStories.jsx";
+import LostFound from "./pages/LostFound.jsx";
+import PostLostFound from "./pages/PostLostFound.jsx";
+import LostFoundDetails from "./pages/LostFoundDetails.jsx";
 
 
 // Home Page
@@ -118,6 +121,25 @@ export default function App() {
           <Route path="/animals/:id" element={<AnimalDetails />} />
           <Route path="/animals/:id/passport" element={<PetHealthPassport />} />
           <Route path="/success-stories" element={<SuccessStories />} />
+
+          {/* FR11 - Lost & Found Pets */}
+          <Route path="/lost-found" element={<LostFound />} />
+          <Route
+            path="/lost-found/new"
+            element={
+              <ProtectedRoute>
+                <PostLostFound />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/lost-found/:id"
+            element={
+              <ProtectedRoute>
+                <LostFoundDetails />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Health Passports Hub - Logged-in Users */}
           <Route
